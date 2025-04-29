@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+    <header class="fade-in">
+        <h1 class="blink">¡Bienvenidos!</h1>
+        <nav>
+            <a href="#inicio">Inicio</a>
+            <a href="#sobrelapagina">Sobre la pagina</a>
+            <a href="#Enfoque metodológico">Enfoque metodológico</a>
+            <a href="#contacto">Contacto</a>
+        </nav>
+    </header>
+
+    <section id="inicio" class="fade-in">
+        <h2>Inicio</h2>
+        <p>Esta página fue creada con el fin de presentar nuestro proyecto de la calculadora de Fundamentos de Programación.La presente investigación tiene como propósito abordar el desarrollo y la implementación de una herramienta digital básica, como una calculadora web, en el contexto del aprendizaje de fundamentos de programación. Esta iniciativa busca fortalecer las competencias técnicas de los estudiantes mediante la práctica y la creación de soluciones funcionales, aplicadas a problemas cotidianos. </p>
+    </section>
+
+    <section class="fade-in">
+        <h2>Calculadora</h2>
+        <div class="calculadora">
+            <input type="text" id="resultado" readonly>
+            <div class="botones">
+                <button onclick="agregar('7')">7</button>
+                <button onclick="agregar('8')">8</button>
+                <button onclick="agregar('9')">9</button>
+                <button onclick="agregar('+')">+</button><br>
+                <button onclick="agregar('4')">4</button>
+                <button onclick="agregar('5')">5</button>
+                <button onclick="agregar('6')">6</button>
+                <button onclick="agregar('-')">-</button><br>
+                <button onclick="agregar('1')">1</button>
+                <button onclick="agregar('2')">2</button>
+                <button onclick="agregar('3')">3</button>
+                <button onclick="agregar('*')">*</button><br>
+                <button onclick="agregar('0')">0</button>
+                <button onclick="agregar('.')">.</button>
+                <button onclick="calcular()">=</button>
+                <button onclick="agregar('/')">/</button><br>
+                <button onclick="limpiar()">C</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="sobre-mi" class="fade-in">
+        <h2>Sobre la página</h2>
+        <p>Es un proyecto con el fin de representar lo aprendido en clase. Diseñar y desarrollar una calculadora web funcional utilizando HTML, CSS y JavaScript, como ejercicio práctico en el proceso de formación en programación básica.</p>
+    </section>
+
+    <section id="Enfoque metodológico" class="fade-in">
+        <h2>Enfoque metodológico</h2>
+        <ul>
+            <li>Se utilizó una metodología de tipo exploratorio-práctico, basada en la aplicación directa de lenguajes de programación web. La estructura del proyecto se dividió en fases: diseño de interfaz, codificación de funciones aritméticas y pruebas de funcionamiento. Este enfoque permite afianzar el aprendizaje a través de la experiencia.</li>
+        </ul>
+    </section>
+
+    <section id="contacto" class="fade-in">
+        <h2>Contacto</h2>
+        <p>Correo: ejemplo@correo.com</p>
+        <button class="boton-brillante">Contáctame</button>
+    </section>
+
+    <footer class="fade-in">
+        <p>© 2025 Mi Primera Página Web</p>
+    </footer>
+
+    <script>
+        function agregar(valor) {
+            const campo = document.getElementById('resultado');
+            campo.value += valor;
+            reproducirSonido();
+            animarCampo();
+        }
+
+        function calcular() {
+            try {
+                document.getElementById('resultado').value = eval(document.getElementById('resultado').value);
+                reproducirSonido();
+                animarCampo();
+            } catch (e) {
+                alert("Operación inválida");
+            }
+        }
+
+        function limpiar() {
+            document.getElementById('resultado').value = '';
+            reproducirSonido();
+            animarCampo();
+        }
+
+        function borrarUltimo() {
+            const campo = document.getElementById('resultado');
+            campo.value = campo.value.slice(0, -1);
+            reproducirSonido();
+            animarCampo();
+        }
+
+        function reproducirSonido() {
+            const sonido = document.getElementById('sonido-tecla');
+            if (sonido) {
+                sonido.currentTime = 0;
+                sonido.play();
+            }
+        }
+
+        function animarCampo() {
+            const campo = document.getElementById('resultado');
+            campo.classList.add('tecla-animada');
+            setTimeout(() => campo.classList.remove('tecla-animada'), 100);
+        }
+
+        document.addEventListener('keydown', function (event) {
+            const key = event.key;
+            const validKeys = '0123456789+-*/.'.split('');
+
+            if (validKeys.includes(key)) {
+                agregar(key);
+            } else if (key === 'Enter' || key === '=') {
+                event.preventDefault();
+                calcular();
+            } else if (key.toLowerCase() === 'c') {
+                limpiar();
+            } else if (key === 'Backspace') {
+                borrarUltimo();
+            }
+        });
+    </script>
+
+</body>
+</html>
