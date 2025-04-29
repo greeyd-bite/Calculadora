@@ -1,0 +1,181 @@
+/* Fondo degradado y estrellas animadas */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #000000, #333333);
+    color:white;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(purple 1px, transparent 1px), radial-gradient(white 1px, transparent 1px);
+    background-size: 50px 50px, 100px 100px;
+    background-position: 0 0, 25px 25px;
+    animation: starsMove 100s linear infinite;
+    z-index: -1;
+    opacity: 0.3;
+}
+
+/* Animaciones */
+@keyframes starsMove {
+    0% {
+        background-position: 0 0, 25px 25px;
+    }
+
+    100% {
+        background-position: 10000px 10000px, 5000px 5000px;
+    }
+}
+
+.fade-in {
+    opacity: 0;
+    animation: fadeInAnimation 2s ease-in forwards;
+}
+
+@keyframes fadeInAnimation {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Scroll suave */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Cabecera */
+header {
+    background-color:rebeccapurple;
+    color:white;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Navegación */
+nav a {
+    margin: 0 15px;
+    color: #00ffff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+    nav a:hover {
+        color: #ff00ff;
+    }
+
+/* Secciones */
+section {
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    margin: 10px;
+    border-radius: 10px;
+}
+
+/* Botón brillante */
+.boton-brillante {
+    background-color: #00ffff;
+    color: black;
+    border: none;
+    padding: 15px 30px;
+    font-size: 16px;
+    margin-top: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.4s;
+    box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+}
+
+    .boton-brillante:hover {
+        background-color: #ff00ff;
+        box-shadow: 0 0 20px #ff00ff, 0 0 30px #ff00ff;
+        color: white;
+    }
+
+/* Footer animado */
+footer {
+    background-color: #111;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    margin-top: 20px;
+    border-top: 1px solid #444;
+    animation: footerGlow 4s ease-in-out infinite alternate;
+}
+
+@keyframes footerGlow {
+    from {
+        box-shadow: 0 0 10px #00ffff;
+    }
+
+    to {
+        box-shadow: 0 0 30px #00ffff;
+    }
+}
+
+/* Texto parpadeando */
+.blink {
+    animation: blinkAnimation 1.5s infinite;
+}
+
+@keyframes blinkAnimation {
+    0%, 100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+.calculadora {
+    background-color:white;
+    color:rebeccapurple;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    margin: 40px auto;
+    text-align: center;
+}
+
+    .calculadora input {
+        width: 90%;
+        font-size: 24px;
+        margin-bottom: 10px;
+        text-align: right;
+        background:black;
+        color:greenyellow;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+    }
+
+    .calculadora .botones button {
+        width: 60px;
+        height: 40px;
+        margin: 5px;
+        font-size: 18px;
+        background-color: #444;
+        color:greenyellow;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        .calculadora .botones button:hover {
+            background-color: #6200ea;
+        }
