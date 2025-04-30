@@ -21,7 +21,7 @@
 
     <section id="inicio" class="fade-in">
         <h2>Inicio</h2>
-        <p>Esta página fue creada con el fin de presentar nuestro proyecto de la calculadora de Fundamentos de Programación. La presente investigación tiene como propósito abordar el desarrollo y la implementación de una herramienta digital básica, como una calculadora web, en el contexto del aprendizaje de fundamentos de programación.</p>
+        <p>La presente investigación tiene como propósito abordar el desarrollo y la implementación de una herramienta digital básica, como una caja registradora virtual y calculadora web, en el contexto del aprendizaje de fundamentos de programación.</p>
     </section>
 
     <!-- Caja Registradora (Ahora va primero) -->
@@ -33,11 +33,29 @@
         <input type="number" id="precioProducto" placeholder="Precio">
         <label>Cantidad:</label>
         <input type="number" id="cantidadProducto" placeholder="1" value="1" min="1">
+        <label>Unidad:</label>
+        <select id="unidadProducto">
+            <option value="unidad">Unidad</option>
+            <option value="kg">Kilogramos (kg)</option>
+            <option value="lb">Libras (lb)</option>
+        </select>
         <label>Descuento (%):</label>
         <input type="number" id="descuentoProducto" placeholder="0" min="0" max="100" value="0">
         <button onclick="agregarProducto()">Agregar</button>
         <ul id="listaProductos"></ul>
+        <label>Tarifa IVA:</label>
+        <select id="ivaProducto">
+            <option value="0">Exento (0%)</option>
+            <option value="5">Reducido (5%)</option>
+            <option value="19" selected>General (19%)</option>
+        </select>
         <h3>IVA (19%): $<span id="ivaValor">0.00</span></h3>
+        <label>Moneda:</label>
+        <select id="monedaSeleccionada">
+            <option value="COP" selected>COP - Peso Colombiano</option>
+            <option value="USD">USD - Dólar</option>
+            <option value="EUR">EUR - Euro</option>
+        </select>
         <h3>Total con IVA: $<span id="total">0.00</span></h3>
 
         <label>Método de pago:</label>
@@ -49,6 +67,25 @@
 
         <button onclick="imprimirRecibo()">Imprimir Recibo</button>
         <button onclick="reiniciarCaja()">Reiniciar</button>
+    </section>
+
+    <section id="historial" class="fade-in">
+        <h2>Historial de ventas</h2>
+        <button onclick="mostrarHistorial()">Ver historial</button>
+        <table border="1" id="tablaHistorial">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Productos</th>
+                    <th>IVA</th>
+                    <th>Total</th>
+                    <th>Método de pago</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Aquí se llenarán las filas -->
+            </tbody>
+        </table>
     </section>
 
     <button id="toggleCalculadora" class="boton-flotante" onclick="alternarCalculadora()" title="Mostrar/Ocultar Calculadora">🧮</button>
@@ -83,7 +120,7 @@
     <!-- Resto del contenido -->
     <section id="sobre" class="fade-in">
         <h2>Sobre la página</h2>
-        <p>Este proyecto busca representar lo aprendido en clase. Se diseñó una calculadora web funcional usando HTML, CSS y JavaScript como ejercicio práctico de programación básica.</p>
+        <p>Este proyecto busca representar lo aprendido en clase. Se diseñó una caja registradora y una calculadora web funcional usando HTML, CSS y JavaScript como ejercicio práctico de programación básica.</p>
     </section>
 
     <section id="enfoque" class="fade-in">
@@ -100,7 +137,7 @@
 
     <section id="contacto" class="fade-in">
         <h2>Contacto</h2>
-        <p>Correo: ejemplo@correo.com</p>
+        <p>Correo:Greeydaj@gmail.com</p>
         <button class="boton-brillante">Contáctame</button>
     </section>
 
