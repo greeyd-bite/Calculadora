@@ -26,8 +26,8 @@
 
     <!-- Caja Registradora (Ahora va primero) -->
     <section id="registradora" class="fade-in registradora">
-        <h2>CAJA REGISTRADORA</h2>
-        <label>Nombre del producto</label>
+        <h2>Nombre del producto</h2>
+        <label>CAJA REGISTRADORA:</label>
         <input type="text" id="nombreProducto" placeholder="Producto">
         <label>Precio del producto:</label>
         <input type="number" id="precioProducto" placeholder="Precio">
@@ -51,11 +51,10 @@
         <button onclick="reiniciarCaja()">Reiniciar</button>
     </section>
 
+    <button id="toggleCalculadora" class="boton-flotante" onclick="alternarCalculadora()" title="Mostrar/Ocultar Calculadora">🧮</button>
 
-
-    
-    <!-- Calculadora -->
-    <section class="fade-in">
+    <!-- Calculadora (oculta por defecto) -->
+    <section id="calculadora" class="fade-in" style="display: none;">
         <h2>Calculadora</h2>
         <div class="calculadora">
             <input type="text" id="resultado" readonly>
@@ -135,6 +134,9 @@
         }
 
         document.addEventListener('keydown', function (event) {
+            const tag = event.target.tagName.toLowerCase();
+            if (tag === 'input' || tag === 'textarea') return; // Ignora teclas si estás escribiendo
+
             const key = event.key;
             const validKeys = '0123456789+-*/.'.split('');
 
@@ -214,6 +216,14 @@
             document.getElementById("listaProductos").innerHTML = "";
             document.getElementById("ivaValor").textContent = "0.00";
             document.getElementById("total").textContent = "0.00";
+        }
+
+        // Mostrar/Ocultar Calculadora
+        function alternarCalculadora() {
+            const calculadora = document.getElementById("calculadora");
+            if (calculadora) {
+                calculadora.style.display = (calculadora.style.display === "none" || calculadora.style.display === "") ? "block" : "none";
+            }
         }
     </script>
 
