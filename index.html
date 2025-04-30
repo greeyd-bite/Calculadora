@@ -2,9 +2,8 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora</title>
+    <title>Caja Registradora y Calculadora</title>
     <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
@@ -13,17 +12,46 @@
         <h1 class="blink">¡Bienvenidos!</h1>
         <nav>
             <a href="#inicio">Inicio</a>
-            <a href="#Sobre la página">Sobre la página</a>
-            <a href="#Enfoque metodológico">Enfoque metodológico</a>
+            <a href="#sobre">Sobre la página</a>
+            <a href="#enfoque">Enfoque metodológico</a>
+            <a href="#programacion">Programación</a>
             <a href="#contacto">Contacto</a>
         </nav>
     </header>
 
     <section id="inicio" class="fade-in">
         <h2>Inicio</h2>
-        <p>Esta página fue creada con el fin de presentar nuestro proyecto de la calculadora de Fundamentos de Programación.La presente investigación tiene como propósito abordar el desarrollo y la implementación de una herramienta digital básica, como una calculadora web, en el contexto del aprendizaje de fundamentos de programación. Esta iniciativa busca fortalecer las competencias técnicas de los estudiantes mediante la práctica y la creación de soluciones funcionales, aplicadas a problemas cotidianos. </p>
+        <p>Esta página fue creada con el fin de presentar nuestro proyecto de la calculadora de Fundamentos de Programación. La presente investigación tiene como propósito abordar el desarrollo y la implementación de una herramienta digital básica, como una calculadora web, en el contexto del aprendizaje de fundamentos de programación.</p>
     </section>
 
+    <!-- Caja Registradora (Ahora va primero) -->
+    <section id="registradora" class="fade-in registradora">
+        <h2>Nombre del producto</h2>
+        <label>CAJA REGISTRADORA:</label>
+        <input type="text" id="nombreProducto" placeholder="Producto">
+        <label>Precio del producto:</label>
+        <input type="number" id="precioProducto" placeholder="Precio">
+        <label>Cantidad:</label>
+        <input type="number" id="cantidadProducto" placeholder="1" value="1" min="1">
+        <label>Descuento (%):</label>
+        <input type="number" id="descuentoProducto" placeholder="0" min="0" max="100" value="0">
+        <button onclick="agregarProducto()">Agregar</button>
+        <ul id="listaProductos"></ul>
+        <h3>IVA (19%): $<span id="ivaValor">0.00</span></h3>
+        <h3>Total con IVA: $<span id="total">0.00</span></h3>
+
+        <label>Método de pago:</label>
+        <select id="metodoPago">
+            <option value="Efectivo">Efectivo</option>
+            <option value="Tarjeta">Tarjeta</option>
+            <option value="Transferencia">Transferencia</option>
+        </select>
+
+        <button onclick="imprimirRecibo()">Imprimir Recibo</button>
+        <button onclick="reiniciarCaja()">Reiniciar</button>
+    </section>
+
+    <!-- Calculadora -->
     <section class="fade-in">
         <h2>Calculadora</h2>
         <div class="calculadora">
@@ -50,27 +78,23 @@
         </div>
     </section>
 
-    <section id="Sobre la página" class="fade-in">
+    <!-- Resto del contenido -->
+    <section id="sobre" class="fade-in">
         <h2>Sobre la página</h2>
-        <p>Es un proyecto con el fin de representar lo aprendido en clase. Diseñar y desarrollar una calculadora web funcional utilizando HTML, CSS y JavaScript, como ejercicio práctico en el proceso de formación en programación básica.</p>
+        <p>Este proyecto busca representar lo aprendido en clase. Se diseñó una calculadora web funcional usando HTML, CSS y JavaScript como ejercicio práctico de programación básica.</p>
     </section>
 
-    <section id="Enfoque metodológico" class="fade-in">
+    <section id="enfoque" class="fade-in">
         <h2>Enfoque metodológico</h2>
         <ul>
-            <li>Se utilizó una metodología de tipo exploratorio-práctico, basada en la aplicación directa de lenguajes de programación web. La estructura del proyecto se dividió en fases: diseño de interfaz, codificación de funciones aritméticas y pruebas de funcionamiento. Este enfoque permite afianzar el aprendizaje a través de la experiencia.</li>
+            <li>Metodología exploratorio-práctica: diseño de interfaz, codificación de funciones aritméticas y pruebas de funcionamiento.</li>
         </ul>
     </section>
 
     <section id="programacion" class="fade-in">
-    <h2>Programación</h2>
-    <p>
-        Esta sección resalta cómo aplicamos los conocimientos adquiridos en clase de Fundamentos de Programación.
-        Utilizamos HTML para estructurar la página, CSS para diseñarla visualmente y JavaScript para darle funcionalidad.
-        La creación de esta calculadora es un ejemplo práctico de cómo la programación nos permite resolver problemas reales
-        mediante el uso de lenguajes de codificación.
-    </p>
-</section>
+        <h2>Programación</h2>
+        <p>Aplicamos los conocimientos adquiridos en Fundamentos de Programación. Usamos HTML para estructurar, CSS para el diseño visual, y JavaScript para la funcionalidad.</p>
+    </section>
 
     <section id="contacto" class="fade-in">
         <h2>Contacto</h2>
@@ -82,19 +106,17 @@
         <p>© 2025 Mi Primera Página Web</p>
     </footer>
 
+    <!-- JavaScript actualizado -->
     <script>
+        // Calculadora
         function agregar(valor) {
             const campo = document.getElementById('resultado');
             campo.value += valor;
-            reproducirSonido();
-            animarCampo();
         }
 
         function calcular() {
             try {
                 document.getElementById('resultado').value = eval(document.getElementById('resultado').value);
-                reproducirSonido();
-                animarCampo();
             } catch (e) {
                 alert("Operación inválida");
             }
@@ -102,29 +124,11 @@
 
         function limpiar() {
             document.getElementById('resultado').value = '';
-            reproducirSonido();
-            animarCampo();
         }
 
         function borrarUltimo() {
             const campo = document.getElementById('resultado');
             campo.value = campo.value.slice(0, -1);
-            reproducirSonido();
-            animarCampo();
-        }
-
-        function reproducirSonido() {
-            const sonido = document.getElementById('sonido-tecla');
-            if (sonido) {
-                sonido.currentTime = 0;
-                sonido.play();
-            }
-        }
-
-        function animarCampo() {
-            const campo = document.getElementById('resultado');
-            campo.classList.add('tecla-animada');
-            setTimeout(() => campo.classList.remove('tecla-animada'), 100);
         }
 
         document.addEventListener('keydown', function (event) {
@@ -133,7 +137,7 @@
 
             if (validKeys.includes(key)) {
                 agregar(key);
-            } else if (key === 'Enter' || key === '=') {
+            } else if (key === 'Enter') {
                 event.preventDefault();
                 calcular();
             } else if (key.toLowerCase() === 'c') {
@@ -142,6 +146,72 @@
                 borrarUltimo();
             }
         });
+
+        // Registradora con mejoras
+        let productos = [];
+        let total = 0;
+
+        function agregarProducto() {
+            const nombre = document.getElementById("nombreProducto").value.trim();
+            const precio = parseFloat(document.getElementById("precioProducto").value);
+            const cantidad = parseInt(document.getElementById("cantidadProducto").value) || 1;
+            const descuento = parseFloat(document.getElementById("descuentoProducto").value) || 0;
+
+            if (nombre && !isNaN(precio) && cantidad > 0) {
+                const subtotalSinDescuento = precio * cantidad;
+                const subtotal = subtotalSinDescuento - (subtotalSinDescuento * (descuento / 100));
+
+                productos.push({ nombre, precio, cantidad, descuento, subtotal });
+                total += subtotal;
+
+                const li = document.createElement("li");
+                li.textContent = `${nombre} x${cantidad} (desc. ${descuento}%): $${subtotal.toFixed(2)}`;
+                document.getElementById("listaProductos").appendChild(li);
+
+                actualizarTotales();
+
+                document.getElementById("nombreProducto").value = "";
+                document.getElementById("precioProducto").value = "";
+                document.getElementById("cantidadProducto").value = "1";
+                document.getElementById("descuentoProducto").value = "0";
+            } else {
+                alert("Por favor, ingresa datos válidos.");
+            }
+        }
+
+        function actualizarTotales() {
+            const iva = total * 0.19;
+            const totalConIva = total + iva;
+
+            document.getElementById("ivaValor").textContent = iva.toFixed(2);
+            document.getElementById("total").textContent = totalConIva.toFixed(2);
+        }
+
+        function imprimirRecibo() {
+            let recibo = "RECIBO DE COMPRA\n\n";
+            productos.forEach(p => {
+                recibo += `${p.nombre} x${p.cantidad} (desc. ${p.descuento}%): $${p.subtotal.toFixed(2)}\n`;
+            });
+            const iva = total * 0.19;
+            const totalConIva = total + iva;
+            const metodo = document.getElementById("metodoPago").value;
+
+            recibo += `\nIVA (19%): $${iva.toFixed(2)}\n`;
+            recibo += `TOTAL: $${totalConIva.toFixed(2)}\n`;
+            recibo += `Método de pago: ${metodo}\n`;
+
+            const win = window.open('', '_blank');
+            win.document.write(`<pre>${recibo}</pre>`);
+            win.print();
+        }
+
+        function reiniciarCaja() {
+            productos = [];
+            total = 0;
+            document.getElementById("listaProductos").innerHTML = "";
+            document.getElementById("ivaValor").textContent = "0.00";
+            document.getElementById("total").textContent = "0.00";
+        }
     </script>
 
 </body>
