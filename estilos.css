@@ -251,3 +251,27 @@ footer {
         opacity: 0;
     }
 }
+
+<style >
+.boton-flotante {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: white;
+    border: none;
+    padding: 15px 18px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.boton-flotante:hover {
+    background: linear-gradient(135deg, #8e2de2, #4a00e0);
+    transform: scale(1.1);
+}
+
+</style >
