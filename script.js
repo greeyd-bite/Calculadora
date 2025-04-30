@@ -1,6 +1,6 @@
 // Array de productos (se mantiene)
 let productos = [];
-let total = 0;
+total += totalProducto;
 
 // Referencias a elementos del DOM
 const searchInput = document.getElementById('searchInput');
@@ -12,23 +12,27 @@ function agregarProducto() {
     const precio = parseFloat(document.getElementById("precioProducto").value);
     const cantidad = parseInt(document.getElementById("cantidadProducto").value) || 1;
     const descuento = parseFloat(document.getElementById("descuentoProducto").value) || 0;
+    const ivaTarifa = parseFloat(document.getElementById("ivaProducto").value); // Nueva línea
 
     if (nombre && !isNaN(precio) && cantidad > 0) {
         const subtotalSinDescuento = precio * cantidad;
         const subtotal = subtotalSinDescuento - (subtotalSinDescuento * (descuento / 100));
+        const valorIva = subtotal * (ivaTarifa / 100);
+        const totalProducto = subtotal + valorIva;
 
-        productos.push({ nombre, precio, cantidad, descuento, subtotal });
-        total += subtotal;
+        productos.push({ nombre, cantidad, descuento, subtotal, valorIva, totalProducto, ivaTarifa });
 
-        // Limpiar campos
+        const li = document.createElement("li");
+        li.textContent = `${nombre} x${cantidad} (desc. ${descuento}% | IVA ${ivaTarifa}%): $${totalProducto.toFixed(2)}`;
+        document.getElementById("listaProductos").appendChild(li);
+
+        actualizarTotales();
+
         document.getElementById("nombreProducto").value = "";
         document.getElementById("precioProducto").value = "";
         document.getElementById("cantidadProducto").value = "1";
         document.getElementById("descuentoProducto").value = "0";
-
-        // Actualizar la lista de productos
-        actualizarLista();
-        actualizarTotales();
+        document.getElementById("ivaProducto").value = "19";
     } else {
         alert("Por favor, ingresa datos válidos.");
     }
@@ -48,36 +52,76 @@ function actualizarLista() {
     // Renderizar productos filtrados
     filtrados.forEach(p => {
         const li = document.createElement("li");
-        li.textContent = `${p.nombre} x${p.cantidad} (desc. ${p.descuento}%): $${p.subtotal.toFixed(2)}`;
+        li.textContent = `${p.nombre} x${p.cantidad} (desc. ${p.descuento}% | IVA ${p.ivaTarifa}%): $${p.totalProducto.toFixed(2)}`;
         listaProductos.appendChild(li);
     });
-}
 
 // Función para actualizar los totales (IVA, Total con IVA)
 function actualizarTotales() {
+    const moneda = document.getElementById("monedaSeleccionada").value;
+    const tasa = tasasCambio[moneda];
     const iva = total * 0.19;
     const totalConIva = total + iva;
 
-    document.getElementById("ivaValor").textContent = iva.toFixed(2);
-    document.getElementById("total").textContent = totalConIva.toFixed(2);
+    document.getElementById("ivaValor").textContent = (iva * tasa).toFixed(2) + ' ' + moneda;
+    document.getElementById("total").textContent = (totalConIva * tasa).toFixed(2) + ' ' + moneda;
+}
+
+const tasasCambio = {
+    COP: 1,
+    USD: 0.00025, // 1 COP = 0.00025 USD
+    EUR: 0.00023  // 1 COP = 0.00023 EUR
+};
+function guardarEnHistorial(recibo, productos, iva, totalConIva, metodo) {
+    const historial = JSON.parse(localStorage.getItem("historialVentas")) || [];
+
+    historial.push({
+        fecha: new Date().toLocaleString(),
+        productos: productos.map(p => `${p.nombre} x${p.cantidad}`),
+        iva: iva.toFixed(2),
+        total: totalConIva.toFixed(2),
+        metodo
+    });
+
+    localStorage.setItem("historialVentas", JSON.stringify(historial));
+}
+
+function mostrarHistorial() {
+    const tabla = document.getElementById("tablaHistorial").getElementsByTagName("tbody")[0];
+    tabla.innerHTML = ""; // Limpiar antes de cargar
+
+    const historial = JSON.parse(localStorage.getItem("historialVentas")) || [];
+
+    historial.forEach(venta => {
+        const fila = tabla.insertRow();
+        fila.innerHTML = `
+            <td>${venta.fecha}</td>
+            <td>${venta.productos.join("<br>")}</td>
+            <td>$${venta.iva}</td>
+            <td>$${venta.total}</td>
+            <td>${venta.metodo}</td>
+        `;
+    });
 }
 
 // Función para imprimir el recibo
 function imprimirRecibo() {
     let recibo = "RECIBO DE COMPRA\n\n";
     productos.forEach(p => {
-        recibo += `${p.nombre} x${p.cantidad} (desc. ${p.descuento}%): $${p.subtotal.toFixed(2)}\n`;
+        recibo += `${p.nombre} x${p.cantidad} ${p.unidad} (desc. ${p.descuento}%): $${p.subtotal.toFixed(2)}\n`;
     });
+    const moneda = document.getElementById("moneda").value;
+    const tasa = tasasCambio[moneda];
     const iva = total * 0.19;
     const totalConIva = total + iva;
-    const metodo = document.getElementById("metodoPago").value;
 
-    recibo += `\nIVA (19%): $${iva.toFixed(2)}\n`;
-    recibo += `TOTAL: $${totalConIva.toFixed(2)}\n`;
+    recibo += `\nIVA (19%): ${(iva * tasa).toFixed(2)} ${moneda}\n`;
+    recibo += `TOTAL: ${(totalConIva * tasa).toFixed(2)} ${moneda}\n`;
     recibo += `Método de pago: ${metodo}\n`;
 
     const win = window.open('', '_blank');
     win.document.write(`<pre>${recibo}</pre>`);
+    guardarEnHistorial(recibo, productos, iva, totalConIva, metodo);
     win.print();
 }
 
